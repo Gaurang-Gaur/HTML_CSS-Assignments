@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filter</title>
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .nav-links a:hover {
+            color: yellow;
+        }
+
+        /* Responsive Menu Button */
+        .menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        /* Product Styles */
+        .product {
+            margin: 5px;
+            margin-left: 12%;
+            padding: 10px;
+            border: 1px solid black;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #333;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">MyShop</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    </nav>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <label for="priceFilter">Max Price: </label>
+        <input type="number" id="priceFilter" placeholder="Enter max price">
+
+        <label for="categoryFilter">Category: </label>
+        <select id="categoryFilter">
+            <option value="all">All</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+        </select>
+
+        <button onclick="filterProducts()">Filter</button>
+    </div>
+
+    <!-- Products -->
+    <div class="product-container">
+        <div class="product" data-price="10" data-category="Electronics">Product 1 - $10 (Electronics)</div>
+        <div class="product" data-price="20" data-category="Clothing">Product 2 - $20 (Clothing)</div>
+        <div class="product" data-price="60" data-category="Electronics">Product 3 - $60 (Electronics)</div>
+        <div class="product" data-price="70" data-category="Clothing">Product 4 - $70 (Clothing)</div>
+        <div class="product" data-price="80" data-category="Electronics">Product 5 - $80 (Electronics)</div>
+        <div class="product" data-price="100" data-category="Clothing">Product 6 - $100 (Clothing)</div>
+        <div class="product" data-price="120" data-category="Electronics">Product 7 - 120 (Electronics)</div>
+        <div class="product" data-price="140" data-category="Clothing">Product 8 - $140 (Clothing)</div>
+        <div class="product" data-price="160" data-category="Electronics">Product 9 - 120 (Electronics)</div>
+        <div class="product" data-price="180" data-category="Clothing">Product 10 - $140 (Clothing)</div>
+
+    </div>
+
+    <script>
+        function filterProducts() {
+            let maxPrice = document.getElementById("priceFilter").value;
+            let selectedCategory = document.getElementById("categoryFilter").value;
+            let products = document.querySelectorAll(".product");
+
+            products.forEach(product => {
+                let price = parseInt(product.getAttribute("data-price"));
+                let category = product.getAttribute("data-category");
+
+                let priceMatch = maxPrice === "" || price <= maxPrice;
+                let categoryMatch = selectedCategory === "all" || category === selectedCategory;
+
+                if (priceMatch && categoryMatch) {
+                    product.classList.remove("hidden");
+                } else {
+                    product.classList.add("hidden");
+                }
+            });
+        }
+
+        function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("active");
+        }
+    </script>
+
+</body>
+
+</html>
